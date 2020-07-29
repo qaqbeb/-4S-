@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.system.mapper.OrderMapper">
+    <sql id="countOrderDetailSql" >
+        SELECT
+        COUNT(1)
+        FROM
+        m_order o
+        WHERE 1 = 1
+        <if test="order.salesId != null and order.salesId != ''">
+            AND o.sales_id = #{order.salesId}
+        </if>
+        <if test="order.customerName != null and order.customerName != ''">
+            And o.customer_name = #{order.customerName}
+        </if>
+        <if test="order.customerPhone != null and order.customerPhone != ''">
+            And o.customer_phone = #{order.customerPhone}
+        </if>
+        <if test="order.vihecleId != null and order.vihecleId != ''">
+            And o.vihecle_id = #{order.vihecleId}
+        </if>
+        <if test="order.price != null and order.price != ''">
+            And o.price = #{order.price}
+        </if>
+        <if test="order.createTimeFrom != null and order.createTimeFrom !=''">
+            And o.create_time &gt; #{order.createTimeFrom}
+        </if>
+        <if test="order.createTimeTo!= null and order.createTimeTo !=''">
+            And o.create_time &lt; #{order.createTimeTo}
+        </if>
+    </sql>
+
+    <sql id="findOrderDetailSql">
+       SELECT
+        o.order_id orderId,
+        o.create_time createTime,
+        o.sales_id salesId,
+        o.customer_name customerName,
+        o.customer_phone customerPhone,
+        o.vihecle_id vihecleId,
+        o.price
+        FROM
+        m_order o
+        WHERE 1 = 1
+        <if test="order.salesId != null and order.salesId != ''">
+            AND o.sales_id = #{order.salesId}
+        </if>
+        <if test="order.customerName != null and order.customerName != ''">
+            And o.customer_name = #{order.customerName}
+        </if>
+        <if test="order.customerPhone != null and order.customerPhone != ''">
+            And o.customer_phone = #{order.customerPhone}
+        </if>
+        <if test="order.vihecleId != null and order.vihecleId != ''">
+            And o.vihecle_id = #{order.vihecleId}
+        </if>
+        <if test="order.price != null and order.price != ''">
+            And o.price = #{order.price}
+        </if>
+        <if test="order.createTimeFrom != null and order.createTimeFrom !=''">
+            And o.create_time &gt; #{order.createTimeFrom}
+        </if>
+        <if test="order.createTimeTo!= null and order.createTimeTo !=''">
+            And o.create_time &lt; #{order.createTimeTo}
+        </if>
+
+    </sql>
+
+    <select id="countOrderDetail" parameterType="order" resultType="long">
+        <include refid="countOrderDetailSql"/>
+    </select>
+
+    <select id="findOrderDetailPage" parameterType="order" resultType="order">
+        <include refid="findOrderDetailSql"/>
+    </select>
+
+    <select id="findOrderDetail" parameterType="order" resultType="order">
+        <include refid="findOrderDetailSql"/>
+    </select>
+
+    <select id="findByName" parameterType="string" resultType="order">
+        SELECT
+        o.order_id orderId,
+        o.create_time createTime,
+        o.sales_id salesId,
+        o.customer_name customerName,
+        o.customer_phone customerPhone,
+        o.vihecle_id vihecleId,
+        o.price
+        FROM
+        m_order o
+        WHERE  o.customer_name = #{customerName}
+
+    </select>
+
+
+</mapper>
